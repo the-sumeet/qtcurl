@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "qtcurl"
+version = "0.1.0"
+description = "A GUI made in Qt for cURL."
+authors = ["sumeetmathpati <sumeet.mathpati@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pyqt6 = "6.4.2"
+antlr4-python3-runtime = "^4.13.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pyqt6-tools = "^6.4.2.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
