@@ -12,7 +12,9 @@ As it's file system based, we can use git to manager/backup/collaboration.
 
 ## Generating Parser 
 
-`java -jar /home/sumeet/Projects/QtCurl/antlr-4.13.1-complete.jar -Dlanguage=Python3 -o parser Curl.g4`# qtcurl
+To generate parser, execute the command:
+
+`java -jar antlr-4.13.1-complete.jar -Dlanguage=Python3 -o parser Curl.g4`
 
 ## Parsing
 
