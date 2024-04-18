@@ -1,5 +1,15 @@
 # Qt cURL
 
+Qt cURL is file system based API client. The data stored in the form of curl command, so we can share those with anyone even if they don't have the app.
+
+As it's file system based, we can use git to manager/backup/collaboration.
+
+# Why?
+
+- Don't like ElectronJS apps, (or any JS based app).
+- Don't want another cloud based app.
+- Don't want another file type to store request, prefer something reusable format.
+
 ## Generating Parser 
 
 `java -jar /home/sumeet/Projects/QtCurl/antlr-4.13.1-complete.jar -Dlanguage=Python3 -o parser Curl.g4`# qtcurl
