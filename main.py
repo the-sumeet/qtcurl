@@ -1,10 +1,12 @@
 import os
 import sys
+from typing import Dict
+
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication, QListWidgetItem
 from pathlib import Path
 
-home = str(Path.home())
+from antlr4_driver import parse_curl
 from main_window import Ui_MainWindow
 
 from PyQt6.QtWidgets import QMainWindow
@@ -24,7 +26,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.refresh_file_explorer()
 
-        self.ui.file_explorer.currentItemChanged.connect(self.on_file_select)
+        # Connect
+        self.ui.go_up.clicked.connect(self.go_up)
+        self.ui.file_explorer.itemClicked.connect(self.on_file_select)
 
     @staticmethod
     def current_dir():
@@ -38,9 +42,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         state['current_dir'] = dirpath
         self.refresh_file_explorer()
 
+    def go_up(self):
+        current_dir = self.current_dir()
+        if current_dir != "/":
+            parent = Path(current_dir).parent
+            self.set_current_dir(str(parent))
+
     def refresh_file_explorer(self):
         self.ui.file_explorer.clear()
-        for file in os.listdir(self.current_dir()):
+        for file in sorted(os.listdir(self.current_dir())):
             list_item = QListWidgetItem(file)
             if MainWindow.is_dir(file):
                 list_item.setIcon(QIcon.fromTheme("folder"))
@@ -50,7 +60,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         selected: str = self.ui.file_explorer.currentItem().text()
         if self.is_dir(selected):
             self.set_current_dir(str(Path(os.path.join(MainWindow.current_dir(), selected))))
+        else:
+            if not selected.endswith('.curl'):
+                return
 
+            with open(os.path.join(MainWindow.current_dir(), selected)) as file:
+                try:
+                    result: Dict = parse_curl(file.read())
+
+                    self.ui.urlIn.setText(result.get("uri", ""))
+                except Exception as e:
+                    print(e)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

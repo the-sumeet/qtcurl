@@ -40,9 +40,11 @@ class Listener(CurlListener):
             }
         ]
 
+
 class ThrowingErrorListener(ErrorListener):
-  def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
-    raise ValueError(f"Line {line}:{column}: {msg}")
+    def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
+        raise ValueError(f"Line {line}:{column}: {msg}")
+
 
 def parse_curl(curl_content: str):
     input_stream = InputStream(curl_content)
@@ -56,8 +58,6 @@ def parse_curl(curl_content: str):
     listener = Listener(result)
     walker = ParseTreeWalker()
     walker.walk(listener, tree)
+    return result
 
-    print(result)
 
-
-parse_curl('curl -X GET -H "A : B -H "F:G" http://example.com?a=b&c=d')
