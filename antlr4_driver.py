@@ -11,6 +11,7 @@ from antlr4.tree.Tree import ErrorNodeImpl
 from parser.CurlLexer import CurlLexer
 from parser.CurlListener import CurlListener
 from parser.CurlParser import CurlParser
+from schema import NameValue
 
 
 class Listener(CurlListener):
@@ -35,9 +36,7 @@ class Listener(CurlListener):
             return
         self.result['headers'] = [
             *self.result.get('headers', []),
-            {
-                str(ctx.headerName().getText()): str(ctx.headerValue().getText())
-            }
+            NameValue(str(ctx.headerName().getText()), str(ctx.headerValue().getText()))
         ]
 
 
